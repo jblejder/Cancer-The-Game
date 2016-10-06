@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Keyten</string>
+    <string name="keyten">Keyten!</string>
+    <string name="no_ten">No keyten</string>
+    <string name="send">Send!</string>
+</resources>

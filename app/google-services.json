@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "309193020891",
+    "firebase_url": "https://keyten-d0499.firebaseio.com",
+    "project_id": "keyten-d0499",
+    "storage_bucket": "keyten-d0499.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309193020891:android:af8a649d72a1a039",
+        "android_client_info": {
+          "package_name": "com.kutapps.keyten"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309193020891-l4fstco50tuptripreecfbk428jl1vjm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kutapps.keyten",
+            "certificate_hash": "AD5C5111155C8B8110967E369E1D67BD8B6A709D"
+          }
+        },
+        {
+          "client_id": "309193020891-q453ao588hh0esb32ivvvih5ga9k6hhd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-BpsATcvzWhFc7_9zisoKgtRz-0hdlDY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309193020891-q453ao588hh0esb32ivvvih5ga9k6hhd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
