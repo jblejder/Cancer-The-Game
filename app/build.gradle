@@ -14,12 +14,21 @@ android {
     }
     buildTypes {
         debug {
+            signingConfig signingConfigs.debug
             versionNameSuffix '-debug'
         }
 
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file('keys/debug.keystore')
+            keyAlias 'androiddebugkey'
+            storePassword 'android'
+            keyPassword 'android'
         }
     }
 
