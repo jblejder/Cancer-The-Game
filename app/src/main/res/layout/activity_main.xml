@@ -7,7 +7,7 @@
             name="model"
             type="com.kutapps.keyten.home.HomeViewModel"/>
 
-        <import type="com.kutapps.keyten.State"/>
+        <import type="com.kutapps.keyten.shared.constants.State"/>
 
         <import type="android.view.View"/>
     </data>

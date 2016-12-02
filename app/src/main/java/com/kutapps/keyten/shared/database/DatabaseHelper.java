@@ -1,14 +1,20 @@
 package com.kutapps.keyten.shared.database;
 
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class DatabaseHelper
 {
-    private FirebaseDatabase database;
+    private DatabaseReference reference;
 
     public DatabaseHelper()
     {
-        database = FirebaseDatabase.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference("keyten");
+    }
+
+    public void doSmth()
+    {
+        reference.setValue(true);
     }
 }
