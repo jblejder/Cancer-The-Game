@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 import com.google.firebase.database.DatabaseError;
 import com.kutapps.keyten.KeytenApp;
 import com.kutapps.keyten.home.models.LoggedUserModel;
+import com.kutapps.keyten.shared.MessagesHelper;
 import com.kutapps.keyten.shared.constants.State;
 import com.kutapps.keyten.shared.database.DatabaseHelper;
 import com.kutapps.keyten.shared.database.models.KeytenModel;
@@ -15,19 +16,29 @@ public class HomeViewModel
 {
     private static final String TAG = "HomeViewModel";
 
-    public final ObservableField<LoggedUserModel> user;
-    private final ObservableField<State> state;
-    private       DatabaseHelper         helper;
+    public final  ObservableField<LoggedUserModel> user;
+    private final ObservableField<State>           state;
 
     {
         user = new ObservableField<>();
         state = new ObservableField<>(State.Init);
     }
 
+    private final DatabaseHelper databaseHelper;
+    private final MessagesHelper messagesHelper;
+
     HomeViewModel()
     {
-        helper = KeytenApp.getDatabaseHelper();
-        helper.listenKeytenChange(new DatabaseHelper.DbListener<KeytenModel>()
+        databaseHelper = KeytenApp.getDatabaseHelper();
+        messagesHelper = KeytenApp.getMessagesHelper();
+
+        messagesHelper.registerForKeytens();
+        initDatabase();
+    }
+
+    private void initDatabase()
+    {
+        databaseHelper.listenKeytenChange(new DatabaseHelper.DbListener<KeytenModel>()
         {
             @Override
             public void newValue(KeytenModel model)
@@ -57,8 +68,13 @@ public class HomeViewModel
 
     public void setKeyten()
     {
-        KeytenModel model = new KeytenModel(state.get() != State.Keyten, DateTime.now(), user.get
-                ().name);
-        helper.setKeyten(model);
+        State state = this.state.get();
+        KeytenModel model = new KeytenModel(state != State.Keyten, DateTime.now(), "JA");
+
+        if (state.equals(State.Noten))
+        {
+            messagesHelper.sendKeytenMessage(model);
+        }
+        databaseHelper.setKeyten(model);
     }
 }
