@@ -13,6 +13,4 @@ public class MessageService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         Log.d(TAG, "onMessageReceived: came");
     }
-
-
 }
