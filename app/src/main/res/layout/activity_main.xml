@@ -8,13 +8,11 @@
             type="com.kutapps.keyten.home.HomeViewModel"/>
 
         <import type="com.kutapps.keyten.shared.constants.State"/>
-
-        <import type="android.view.View"/>
     </data>
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/activity_main"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/activity_vertical_margin"
@@ -41,7 +39,7 @@
                     android:layout_centerInParent="true"
                     android:text="@string/keyten"
                     android:textSize="50sp"
-                    android:visibility="@{model.state == State.Keyten ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{model.state == State.Keyten }"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -49,7 +47,7 @@
                     android:layout_centerInParent="true"
                     android:text="@string/no_ten"
                     android:textSize="50sp"
-                    android:visibility="@{model.state == State.Noten ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{model.state == State.Noten }"/>
 
             </RelativeLayout>
         </LinearLayout>
@@ -65,14 +63,14 @@
             android:text="@string/keyten"
             android:textColor="@android:color/darker_gray"
             android:textSize="50sp"
-            android:visibility="@{model.state == State.Keyten || model.state == State.Init  ? View.GONE : View.VISIBLE}"/>
+            android:visibility="@{model.state != State.Keyten &amp;&amp; model.state != State.Init}"/>
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:indeterminate="true"
-            android:visibility="@{model.state == State.Init  ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{model.state == State.Init}"/>
 
     </RelativeLayout>
 </layout>
