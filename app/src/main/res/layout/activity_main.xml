@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="com.kutapps.keyten.ViewModel"/>
+            type="com.kutapps.keyten.home.HomeViewModel"/>
 
         <import type="com.kutapps.keyten.State"/>
 

@@ -1,4 +1,4 @@
-package com.kutapps.keyten;
+package com.kutapps.keyten.home;
 
 import android.databinding.ObservableField;
 
@@ -7,16 +7,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kutapps.keyten.shared.constants.Const;
+import com.kutapps.keyten.shared.constants.State;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-public class ViewModel {
+public class HomeViewModel
+{
 
     private final ObservableField<State> state = new ObservableField<>(State.Init);
     private DatabaseReference reference;
 
-    ViewModel() {
+    HomeViewModel() {
         reference = FirebaseDatabase.getInstance().getReference(Const.Date);
         reference.addValueEventListener(new ValueEventListener() {
             @Override

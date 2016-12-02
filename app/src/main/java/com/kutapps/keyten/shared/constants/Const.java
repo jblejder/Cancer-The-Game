@@ -1,4 +1,4 @@
-package com.kutapps.keyten;
+package com.kutapps.keyten.shared.constants;
 
 public class Const {
     public static final String Date = "keytenDate";
