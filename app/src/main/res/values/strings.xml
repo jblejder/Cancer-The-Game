@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Keyten</string>
     <string name="keyten" translatable="false">Keyten!</string>
-    <string name="no_ten" translatable="false">No keyten</string>
+    <string name="no_ten" translatable="false">Noten..</string>
     <string name="send">Send!</string>
     <string name="logout">Logout</string>
 </resources>
