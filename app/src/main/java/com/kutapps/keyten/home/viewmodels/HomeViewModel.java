@@ -1,10 +1,11 @@
-package com.kutapps.keyten.home;
+package com.kutapps.keyten.home.viewmodels;
 
 import android.databinding.ObservableField;
 
 import com.google.firebase.database.DatabaseError;
 import com.kutapps.keyten.KeytenApp;
 import com.kutapps.keyten.home.models.LoggedUserModel;
+import com.kutapps.keyten.main.viewmodels.MainViewModel;
 import com.kutapps.keyten.shared.MessagesHelper;
 import com.kutapps.keyten.shared.constants.State;
 import com.kutapps.keyten.shared.database.DatabaseHelper;
@@ -14,21 +15,20 @@ import org.joda.time.DateTime;
 
 public class HomeViewModel
 {
-    private static final String TAG = "HomeViewModel";
-
-    public final  ObservableField<LoggedUserModel> user;
-    private final ObservableField<State>           state;
-
-    {
-        user = new ObservableField<>();
-        state = new ObservableField<>(State.Init);
-    }
+    public final ObservableField<LoggedUserModel> user;
+    public final ObservableField<State>           state;
 
     private final DatabaseHelper databaseHelper;
     private final MessagesHelper messagesHelper;
 
-    HomeViewModel()
+
     {
+        state = new ObservableField<>(State.Init);
+    }
+
+    public HomeViewModel(MainViewModel rootModel)
+    {
+        user = rootModel.user;
         databaseHelper = KeytenApp.getDatabaseHelper();
         messagesHelper = KeytenApp.getMessagesHelper();
 
@@ -61,11 +61,6 @@ public class HomeViewModel
         });
     }
 
-    public ObservableField<State> getState()
-    {
-        return state;
-    }
-
     public void setKeyten()
     {
         State state = this.state.get();
@@ -77,4 +72,6 @@ public class HomeViewModel
         }
         databaseHelper.setKeyten(model);
     }
+
 }
+

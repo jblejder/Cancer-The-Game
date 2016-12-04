@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.kutapps.keyten.home.viewmodels.HomeViewModel"/>
+
+        <variable
+            name="handler"
+            type="com.kutapps.keyten.home.fragments.handlers.IMainFragmentHandler"/>
+
+        <import type="com.kutapps.keyten.shared.constants.State"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@{model.state.colorLight}"
+        android:paddingBottom="@dimen/activity_bottom_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_top_margin"
+        app:animate="@{@integer/changeDuration}"
+        tools:background="@color/notenLight">
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:background="@null"
+            android:onClick="@{v -> handler.onClickUser()}"
+            android:src="@{model.user.image}"
+            app:circular="@{true}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:text="@{model.state != State.Keyten ? @string/keyten : @string/no_ten}"
+                android:textAlignment="center"
+                android:textSize="50sp"
+                android:visibility="@{model.state != State.Init}"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@{model.state.colorDark}"
+            android:onClick="@{v -> model.setKeyten()}"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:text="@string/keyten"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="50sp"
+            android:visibility="@{model.state != State.Init }"
+            app:animate="@{@integer/changeDuration}"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:visibility="@{model.state == State.Init }"/>
+
+    </RelativeLayout>
+</layout>

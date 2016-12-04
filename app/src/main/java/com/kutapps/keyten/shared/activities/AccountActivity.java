@@ -2,18 +2,21 @@ package com.kutapps.keyten.shared.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.kutapps.keyten.R;
 
-public abstract class AccountActivity extends AppCompatActivity implements GoogleApiClient
+public abstract class AccountActivity extends BaseActivity implements GoogleApiClient
         .OnConnectionFailedListener
 {
     private static final String TAG = AccountActivity.class.getSimpleName();
@@ -73,5 +76,24 @@ public abstract class AccountActivity extends AppCompatActivity implements Googl
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
     {
         Log.e(TAG, "onConnectionFailed" + connectionResult);
+    }
+
+
+    protected void firebaseAuthWithGoogle(GoogleSignInAccount acct)
+    {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
+            Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+
+            if (!task.isSuccessful())
+            {
+                Log.w(TAG, "signInWithCredential", task.getException());
+                Toast.makeText(AccountActivity.this, "Authentication failed.", Toast
+                        .LENGTH_SHORT).show();
+            }
+            // ...
+        });
     }
 }

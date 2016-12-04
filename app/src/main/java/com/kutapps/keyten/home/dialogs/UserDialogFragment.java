@@ -21,7 +21,7 @@ public class UserDialogFragment extends DialogFragment
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        callback = (IUserDialogCallback) context;
+        callback = (IUserDialogCallback) getParentFragment();
     }
 
     @Nullable
