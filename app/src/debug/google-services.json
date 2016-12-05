@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:202664728606:android:af8a649d72a1a039",
+        "mobilesdk_app_id": "1:202664728606:android:d94509976d02dd96",
         "android_client_info": {
-          "package_name": "com.kutapps.keyten"
+          "package_name": "com.kutapps.keyten.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "202664728606-h1818l6fvqkunin0tjppjb8oops8mrdr.apps.googleusercontent.com",
+          "client_id": "202664728606-3b34ibrffm108rcu3o5tg4qtidcuasr4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.kutapps.keyten",
-            "certificate_hash": "54FF2FC197B0FB8F6F7AEA09EE094BB725F58649"
+            "package_name": "com.kutapps.keyten.debug",
+            "certificate_hash": "43E358E4279BBC19FE3A913EBF972B62E1DDB121"
           }
         },
         {

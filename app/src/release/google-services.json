@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "107298751140",
+    "firebase_url": "https://keyten-release.firebaseio.com",
+    "project_id": "keyten-release",
+    "storage_bucket": "keyten-release.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107298751140:android:af8a649d72a1a039",
+        "android_client_info": {
+          "package_name": "com.kutapps.keyten"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107298751140-o25vogptu5dh2v35e3dove2jbn8tdpbb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU_ZzygjRO8vmTkNKLxpcR78klJipG6dc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
