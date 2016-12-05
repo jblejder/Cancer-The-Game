@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "202664728606",
+    "firebase_url": "https://keyten-19b67.firebaseio.com",
+    "project_id": "keyten-19b67",
+    "storage_bucket": "keyten-19b67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202664728606:android:af8a649d72a1a039",
+        "android_client_info": {
+          "package_name": "com.kutapps.keyten"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202664728606-h1818l6fvqkunin0tjppjb8oops8mrdr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kutapps.keyten",
+            "certificate_hash": "54FF2FC197B0FB8F6F7AEA09EE094BB725F58649"
+          }
+        },
+        {
+          "client_id": "202664728606-bssp8af90i5mgkmdtq5d83fnfhk0fui3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9ItU7mN3BxarE2p5LWWnn6HmFavuRQ6w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202664728606-bssp8af90i5mgkmdtq5d83fnfhk0fui3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "202664728606-cvcret92hm1lqe3327ijjq8ibqamfoom.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "pl.patrykmieszala.Keyten"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
