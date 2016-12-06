@@ -4,4 +4,6 @@
     <string name="no_ten" translatable="false">Noten..</string>
     <string name="send">Send!</string>
     <string name="logout">Logout</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
