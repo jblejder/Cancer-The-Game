@@ -8,7 +8,7 @@ public class MainViewModel
 {
     private static final String TAG = MainViewModel.class.getSimpleName();
 
-    public final  ObservableField<LoggedUserModel> user;
+    public final ObservableField<LoggedUserModel> user;
 
     {
         user = new ObservableField<>();

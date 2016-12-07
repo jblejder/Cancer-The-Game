@@ -7,8 +7,8 @@ import com.kutapps.keyten.R;
 public enum State
 {
     Init(R.color.initLight, R.color.initLight),
-    Keyten(R.color.keytenLight, R.color.keytenDark),
-    Noten(R.color.notenLight, R.color.notenDark);
+    Noten(R.color.notenLight, R.color.notenDark),
+    Keyten(R.color.keytenLight, R.color.keytenDark);
 
     private final
     @ColorRes

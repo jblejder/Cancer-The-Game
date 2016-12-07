@@ -3,7 +3,6 @@ package com.kutapps.keyten.shared.binding.adapters;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -23,7 +22,7 @@ public class ImageBindingAdapter
     }
 
     @BindingAdapter(value = {"android:src", "bind:circular"}, requireAll = false)
-    public static void loadImage(ImageView view, Uri imageUri, boolean circular)
+    public static void loadImage(ImageView view, String imageUri, boolean circular)
     {
         if (circular)
         {
