@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "202664728606-k6i3u8gst7gho4b383f885irv3vej0h4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kutapps.keyten",
+            "certificate_hash": "1FE803CA8C609BACF741431AC50759A3E3E0CEE8"
+          }
+        },
+        {
+          "client_id": "202664728606-d9838rqmotc9lki4j347tu8e0srhh0d2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kutapps.keyten",
+            "certificate_hash": "43E358E4279BBC19FE3A913EBF972B62E1DDB121"
+          }
+        },
+        {
           "client_id": "202664728606-h1818l6fvqkunin0tjppjb8oops8mrdr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -40,15 +56,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "202664728606-bssp8af90i5mgkmdtq5d83fnfhk0fui3.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
               "client_id": "202664728606-cvcret92hm1lqe3327ijjq8ibqamfoom.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "pl.patrykmieszala.Keyten"
               }
+            },
+            {
+              "client_id": "202664728606-bssp8af90i5mgkmdtq5d83fnfhk0fui3.apps.googleusercontent.com",
+              "client_type": 3
             }
           ]
         },

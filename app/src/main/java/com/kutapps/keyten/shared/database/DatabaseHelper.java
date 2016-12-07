@@ -18,9 +18,34 @@ public class DatabaseHelper
         db = FirebaseDatabase.getInstance();
     }
 
+    private static KeytenModel parseModel(DataSnapshot dataSnapshot)
+    {
+        Gson gson = new Gson();
+        String value = dataSnapshot.getValue(String.class);
+        return gson.fromJson(value, KeytenModel.class);
+    }
+
     public void setKeyten(KeytenModel model)
     {
         db.getReference(DatabaseFields.KEYTEN).setValue(new Gson().toJson(model));
+    }
+
+    public void listenSingleKeytenChange(DbListener<KeytenModel> listener)
+    {
+        db.getReference(DatabaseFields.KEYTEN).addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                listener.newValue(parseModel(dataSnapshot));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                listener.error(databaseError);
+            }
+        });
     }
 
     public void listenKeytenChange(final DbListener<KeytenModel> listener)
@@ -30,10 +55,7 @@ public class DatabaseHelper
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                Gson gson = new Gson();
-                String value = dataSnapshot.getValue(String.class);
-                KeytenModel model = gson.fromJson(value, KeytenModel.class);
-                listener.newValue(model);
+                listener.newValue(parseModel(dataSnapshot));
             }
 
             @Override
