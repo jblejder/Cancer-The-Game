@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#1b5e20</color>
     <color name="colorAccent">#ffffff</color>
     <color name="keytenLight">#9FA8DA</color>
-    <color name="notenLight">#AED581</color>
+    <color name="notenLight">#ffffff</color>
     <color name="initLight">#8BC34A</color>
     <color name="keytenDark">#3949AB</color>
-    <color name="notenDark">#1b5e20</color>
+    <color name="notenDark">#bdbdbd</color>
 </resources>

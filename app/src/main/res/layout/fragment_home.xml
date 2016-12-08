@@ -21,7 +21,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@{model.state.colorLight}"
+        android:background="@{model.backgroundColor}"
+        android:onClick="@{v -> model.setKeyten()}"
         android:paddingBottom="@dimen/activity_bottom_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -39,38 +40,36 @@
             app:circular="@{true}"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:text="@{model.state == State.Keyten ? @string/keyten : @string/no_ten}"
-                android:textAlignment="center"
-                android:textSize="50sp"
-                android:visibility="@{model.state != State.Init}"/>
-
-        </LinearLayout>
-
-        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@{model.state.colorDark}"
-            android:onClick="@{v -> model.setKeyten()}"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:text="@string/keyten"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="50sp"
-            android:visibility="@{model.state != State.Init }"
-            app:animate="@{@integer/changeDuration}"/>
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            tools:ignore="RelativeOverlap">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@{model.keytenModel.user.image}"
+                app:circular="@{true}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.keytenModel.user.name}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{model.backgroundColor}"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="@{model.state == State.Keyten ? @string/keyten : @string/no_ten}"
+                android:textSize="50sp"
+                android:visibility="@{model.state != State.Init}"
+                app:animate="@{@integer/changeDuration}"/>
+        </LinearLayout>
 
         <ProgressBar
             android:layout_width="wrap_content"

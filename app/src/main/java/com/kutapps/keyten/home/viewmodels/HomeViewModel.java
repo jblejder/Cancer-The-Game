@@ -8,9 +8,11 @@ import com.kutapps.keyten.KeytenApp;
 import com.kutapps.keyten.home.models.LoggedUserModel;
 import com.kutapps.keyten.main.viewmodels.MainViewModel;
 import com.kutapps.keyten.shared.MessagesHelper;
+import com.kutapps.keyten.home.adapters.binding.ColorModel;
 import com.kutapps.keyten.shared.constants.State;
 import com.kutapps.keyten.shared.database.DatabaseHelper;
 import com.kutapps.keyten.shared.database.models.KeytenModel;
+import com.kutapps.keyten.shared.helpers.ColorGenerator;
 
 public class HomeViewModel
 {
@@ -18,6 +20,9 @@ public class HomeViewModel
 
     public final ObservableField<LoggedUserModel> user;
     public final ObservableField<State>           state;
+    public final ObservableField<KeytenModel>     keytenModel;
+
+    public final ObservableField<ColorModel> backgroundColor;
 
     private final DatabaseHelper databaseHelper;
     private final MessagesHelper messagesHelper;
@@ -25,6 +30,8 @@ public class HomeViewModel
 
     {
         state = new ObservableField<>(State.Init);
+        backgroundColor = new ObservableField<>(ColorModel.res(state.get().getColorLight()));
+        keytenModel = new ObservableField<>();
     }
 
     public HomeViewModel(MainViewModel rootModel)
@@ -46,7 +53,19 @@ public class HomeViewModel
             {
                 if (model != null)
                 {
+                    keytenModel.set(model);
                     state.set(model.value ? State.Keyten : State.Noten);
+
+                    ColorModel colorModel;
+                    if (state.get() == State.Keyten)
+                    {
+                        colorModel = ColorModel.color(ColorGenerator.getColor(model.user.name));
+                    }
+                    else
+                    {
+                        colorModel = ColorModel.res(state.get().getColorLight());
+                    }
+                    backgroundColor.set(colorModel);
                 }
                 else
                 {

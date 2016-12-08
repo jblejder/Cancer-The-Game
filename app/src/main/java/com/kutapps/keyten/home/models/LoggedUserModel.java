@@ -19,7 +19,7 @@ public class LoggedUserModel
         this.name = user.getDisplayName();
         if (user.getPhotoUrl() != null)
         {
-            this.image = user.getPhotoUrl().getPath();
+            this.image = user.getPhotoUrl().toString();
         }
     }
 }
