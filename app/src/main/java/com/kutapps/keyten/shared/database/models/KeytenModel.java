@@ -14,6 +14,7 @@ public class KeytenModel
     public DateTime        date;
     public LoggedUserModel user;
 
+    @SuppressWarnings("unused")
     public KeytenModel()
     {
         //no-op

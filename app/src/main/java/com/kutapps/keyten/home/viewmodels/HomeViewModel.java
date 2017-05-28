@@ -4,18 +4,15 @@ import android.databinding.ObservableField;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseError;
-import com.kutapps.keyten.KeytenApp;
+import com.kutapps.keyten.R;
+import com.kutapps.keyten.home.adapters.binding.ColorModel;
 import com.kutapps.keyten.home.models.LoggedUserModel;
 import com.kutapps.keyten.main.viewmodels.MainViewModel;
-import com.kutapps.keyten.shared.MessagesHelper;
-import com.kutapps.keyten.home.adapters.binding.ColorModel;
 import com.kutapps.keyten.shared.constants.State;
 import com.kutapps.keyten.shared.database.DatabaseHelper;
 import com.kutapps.keyten.shared.database.models.KeytenModel;
-import com.kutapps.keyten.shared.helpers.ColorGenerator;
 
-public class HomeViewModel
-{
+public class HomeViewModel {
     public final static String TAG = HomeViewModel.class.getSimpleName();
 
     public final ObservableField<LoggedUserModel> user;
@@ -25,83 +22,74 @@ public class HomeViewModel
     public final ObservableField<ColorModel> backgroundColor;
 
     private final DatabaseHelper databaseHelper;
-    private final MessagesHelper messagesHelper;
+    //private final MessagesHelper messagesHelper;
 
 
     {
         state = new ObservableField<>(State.Init);
-        backgroundColor = new ObservableField<>(ColorModel.res(state.get().getColorLight()));
+        backgroundColor = new ObservableField<>(ColorModel.res(R.color.notenLight));
         keytenModel = new ObservableField<>();
     }
 
-    public HomeViewModel(MainViewModel rootModel)
-    {
+    public HomeViewModel(MainViewModel rootModel, DatabaseHelper databaseHelper) {
         user = rootModel.user;
-        databaseHelper = KeytenApp.getDatabaseHelper();
-        messagesHelper = KeytenApp.getMessagesHelper();
+        this.databaseHelper = databaseHelper;
+        //messagesHelper = KeytenApp.getMessagesHelper();
 
-        messagesHelper.registerForKeytens();
+        //messagesHelper.registerForKeytens();
         initDatabase();
     }
 
-    private void initDatabase()
-    {
-        databaseHelper.listenKeytenChange(new DatabaseHelper.DbListener<KeytenModel>()
-        {
+    private void initDatabase() {
+        databaseHelper.listenKeytenChange(new DatabaseHelper.DbListener<KeytenModel>() {
             @Override
-            public void newValue(KeytenModel model)
-            {
-                if (model != null)
-                {
+            public void newValue(KeytenModel model) {
+                if (model != null) {
                     keytenModel.set(model);
-                    state.set(model.value ? State.Keyten : State.Noten);
+                    state.set(model.value ? State.Mine : State.NotMine);
 
                     ColorModel colorModel;
-                    if (state.get() == State.Keyten)
-                    {
-                        colorModel = ColorModel.color(ColorGenerator.getColor(model.user.name));
-                    }
-                    else
-                    {
-                        colorModel = ColorModel.res(state.get().getColorLight());
-                    }
-                    backgroundColor.set(colorModel);
-                }
-                else
-                {
-                    state.set(State.Noten);
+//                    if (state.get() == State.Mine) {
+//                        colorModel = ColorModel.color(ColorGenerator.getColor(model.user.name));
+//                    } else {
+//                        colorModel = ColorModel.res(state.get().getColorLight());
+//                    }
+//                    backgroundColor.set(colorModel);
+                } else {
+                    state.set(State.NotMine);
                 }
             }
 
             @Override
-            public void error(DatabaseError error)
-            {
+            public void error(DatabaseError error) {
+                state.set(State.Error);
                 Log.e(TAG, error.getMessage() + ": " + error.getDetails());
             }
         });
     }
 
-    public void setKeyten()
-    {
+    public void toggleState() {
         State newState;
-        switch (state.get())
-        {
-            case Noten:
-                newState = State.Keyten;
+        switch (state.get()) {
+            case NotMine:
+                newState = State.Mine;
                 break;
-            case Keyten:
+            case Mine:
+                newState = State.NotMine;
+                break;
             case Init:
+                newState = State.Init;
+                break;
+            case Error:
             default:
-                newState = State.Noten;
+                newState = State.Error;
         }
 
-        KeytenModel model = new KeytenModel(newState == State.Keyten, user.get());
+        state.set(newState);
+        KeytenModel model = new KeytenModel(newState == State.Mine, user.get());
 
-        if (newState.equals(State.Noten))
-        {
-            messagesHelper.sendKeytenMessage(model);
-        }
-        databaseHelper.setKeyten(model);
+
+        //databaseHelper.setKeyten(model);
     }
 
 }

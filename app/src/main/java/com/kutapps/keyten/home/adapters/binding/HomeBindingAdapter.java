@@ -1,6 +1,5 @@
 package com.kutapps.keyten.home.adapters.binding;
 
-import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.databinding.BindingAdapter;
@@ -8,12 +7,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 
 public class HomeBindingAdapter
 {
-    @BindingAdapter({"android:background", "bind:animate"})
+    @BindingAdapter({"android:background", "animate"})
     public static void bindColorBackground(View view, ColorModel colorModel, int duration)
     {
         Drawable background = view.getBackground();

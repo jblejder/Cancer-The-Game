@@ -11,65 +11,14 @@
             name="model"
             type="com.kutapps.keyten.home.viewmodels.HomeViewModel"/>
 
-        <variable
-            name="handler"
-            type="com.kutapps.keyten.home.fragments.handlers.IMainFragmentHandler"/>
-
         <import type="com.kutapps.keyten.shared.constants.State"/>
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@{model.backgroundColor}"
-        android:onClick="@{v -> model.setKeyten()}"
-        android:paddingBottom="@dimen/activity_bottom_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_top_margin"
-        app:animate="@{@integer/changeDuration}"
-        tools:background="@color/keytenLight">
+        android:background="@color/colorAccent">
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:background="@null"
-            android:onClick="@{v -> handler.onClickUser()}"
-            android:src="@{model.user.image}"
-            app:circular="@{true}"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            tools:ignore="RelativeOverlap">
-
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@{model.keytenModel.user.image}"
-                app:circular="@{true}"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{model.keytenModel.user.name}"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@{model.backgroundColor}"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
-                android:text="@{model.state == State.Keyten ? @string/keyten : @string/no_ten}"
-                android:textSize="50sp"
-                android:visibility="@{model.state != State.Init}"
-                app:animate="@{@integer/changeDuration}"/>
-        </LinearLayout>
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -78,5 +27,81 @@
             android:indeterminate="true"
             android:visibility="@{model.state == State.Init }"/>
 
+        <Button
+            android:id="@+id/btnGoToLeaderboards"
+            style="?borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/activity_bottom_margin"
+            android:drawableEnd="@drawable/ic_arrow_right"
+            android:text="@string/leaderboards"
+            android:textSize="15sp"
+            android:visibility="invisible"/>
+
+        <LinearLayout
+            android:id="@+id/leaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/activity_top_margin"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/view_user_item"
+                app:scale="@{1f}"/>
+
+            <include
+                layout="@layout/view_user_item"
+                app:scale="@{0.7f}"/>
+
+            <include
+                layout="@layout/view_user_item"
+                app:scale="@{0.6f}"/>
+
+            <include
+                layout="@layout/view_user_item"
+                app:scale="@{0.35f}"/>
+
+            <include
+                layout="@layout/view_user_item"
+                app:scale="@{0.3f}"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/btnTHEBUTTON"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/leaderboard"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_top_margin"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:onClick="@{v -> model.toggleState()}">
+
+            <ImageView
+                android:id="@+id/imgCancer"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_crab_with_two_claws_icon"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                />
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/btnUser"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_top_margin"
+            android:background="@null"
+            android:elevation="5dp"
+            android:src="@{model.user.image}"
+            app:circular="@{true}"
+            tools:src="@color/colorPrimaryDark"/>
     </RelativeLayout>
 </layout>

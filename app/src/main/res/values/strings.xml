@@ -4,4 +4,5 @@
     <string name="no_ten" translatable="false">Noten..</string>
     <string name="send">Send!</string>
     <string name="logout">Logout</string>
+    <string name="leaderboards">Leaderboards</string>
 </resources>

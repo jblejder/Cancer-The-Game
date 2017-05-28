@@ -15,7 +15,7 @@ public class BindableAdapter
         view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
-    @BindingAdapter({"android:visibility", "bind:duration"})
+    @BindingAdapter({"android:visibility", "duration"})
     public static void setVisibility(final ImageView view, Boolean isVisible, int duration)
     {
         if (isVisible)

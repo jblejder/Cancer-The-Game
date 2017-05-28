@@ -29,11 +29,11 @@ public class MainActivity extends AccountActivity implements IMainActivityCallba
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         model = new MainViewModel();
         binding.setModel(model);
-        super.onCreate(savedInstanceState);
     }
 
     @Override
