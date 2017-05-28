@@ -7,21 +7,17 @@ import com.kutapps.keyten.shared.adapters.gson.DateTimeTypeAdapter;
 
 import org.joda.time.DateTime;
 
-public class KeytenModel
-{
-    public boolean         value;
+@Deprecated
+public class KeytenModel {
     @JsonAdapter(DateTimeTypeAdapter.class)
-    public DateTime        date;
+    public DateTime date;
     public LoggedUserModel user;
 
-    public KeytenModel()
-    {
+    public KeytenModel() {
         //no-op
     }
 
-    public KeytenModel(boolean value, LoggedUserModel user)
-    {
-        this.value = value;
+    public KeytenModel(LoggedUserModel user) {
         this.date = DateTime.now();
         this.user = user;
     }

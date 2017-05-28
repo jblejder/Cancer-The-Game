@@ -10,6 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.kutapps.keyten.KeytenApp;
 import com.kutapps.keyten.R;
 import com.kutapps.keyten.databinding.ActivityMainBinding;
 import com.kutapps.keyten.home.fragments.HomeFragment;
@@ -18,6 +19,7 @@ import com.kutapps.keyten.login.fragments.LoginFragment;
 import com.kutapps.keyten.main.activities.callbacks.IMainActivityCallback;
 import com.kutapps.keyten.main.viewmodels.MainViewModel;
 import com.kutapps.keyten.shared.activities.AccountActivity;
+import com.kutapps.keyten.shared.database.Storage;
 
 public class MainActivity extends AccountActivity implements IMainActivityCallback
 {
@@ -31,7 +33,8 @@ public class MainActivity extends AccountActivity implements IMainActivityCallba
     {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        model = new MainViewModel();
+        Storage storage = ((KeytenApp) getApplication()).getStorage();
+        model = new MainViewModel(storage);
         binding.setModel(model);
         super.onCreate(savedInstanceState);
     }
