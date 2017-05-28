@@ -3,27 +3,19 @@ package com.kutapps.keyten;
 
 import android.app.Application;
 
-import com.kutapps.keyten.shared.MessagesHelper;
-import com.kutapps.keyten.shared.database.DatabaseHelper;
+import com.kutapps.keyten.shared.database.Storage;
 
 public class KeytenApp extends Application {
-    private DatabaseHelper databaseHelper;
-    private MessagesHelper messagesHelper;
+
+    private Storage storage;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-
-        messagesHelper = new MessagesHelper();
-        databaseHelper = new DatabaseHelper();
+        storage = new Storage();
     }
 
-    public DatabaseHelper getDatabaseHelper() {
-        return databaseHelper;
-    }
-
-    public MessagesHelper getMessagesHelper() {
-        return messagesHelper;
+    public Storage getStorage() {
+        return storage;
     }
 }

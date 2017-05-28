@@ -27,14 +27,6 @@
             </intent-filter>
         </service>
 
-        <receiver
-            android:name=".receivers.WifiStateReceiver">
-            <intent-filter>
-                <action android:name="android.net.wifi.STATE_CHANGE"/>
-                <action android:name="android.content.Intent.ACTION_VIEW"/>
-            </intent-filter>
-        </receiver>
-
         <receiver android:name=".widget.KeytenWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>

@@ -13,14 +13,12 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 
-import com.kutapps.keyten.KeytenApp;
 import com.kutapps.keyten.R;
 import com.kutapps.keyten.databinding.FragmentHomeBinding;
 import com.kutapps.keyten.home.dialogs.UserDialogFragment;
 import com.kutapps.keyten.home.dialogs.callbacks.IUserDialogCallback;
 import com.kutapps.keyten.home.viewmodels.HomeViewModel;
 import com.kutapps.keyten.main.activities.callbacks.IMainActivityCallback;
-import com.kutapps.keyten.shared.database.DatabaseHelper;
 import com.kutapps.keyten.shared.fargments.BaseFragment;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements IUserDialogCallback {
@@ -46,9 +44,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DatabaseHelper databaseHelper =
-                ((KeytenApp) getActivity().getApplication()).getDatabaseHelper();
-        model = new HomeViewModel(callback.getModel(), databaseHelper);
+        model = new HomeViewModel(callback.getModel());
         model.state.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {

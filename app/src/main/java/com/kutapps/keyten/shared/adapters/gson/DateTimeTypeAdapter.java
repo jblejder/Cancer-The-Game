@@ -5,25 +5,17 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 
-public class DateTimeTypeAdapter extends TypeAdapter<DateTime>
-{
-    private static final String PATTERN = "hh:mm dd/MM/yyyy";
-
+public class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
     @Override
-    public void write(JsonWriter out, DateTime value) throws IOException
-    {
-        out.value(value.toString(PATTERN));
+    public void write(JsonWriter out, DateTime value) throws IOException {
+        out.value(value.toString());
     }
 
     @Override
-    public DateTime read(JsonReader in) throws IOException
-    {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(PATTERN);
-        return new DateTime(formatter.parseDateTime(in.nextString()));
+    public DateTime read(JsonReader in) throws IOException {
+        return new DateTime(in.nextString());
     }
 }

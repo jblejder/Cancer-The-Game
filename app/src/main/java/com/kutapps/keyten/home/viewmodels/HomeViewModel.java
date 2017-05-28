@@ -1,69 +1,60 @@
 package com.kutapps.keyten.home.viewmodels;
 
 import android.databinding.ObservableField;
-import android.util.Log;
 
-import com.google.firebase.database.DatabaseError;
 import com.kutapps.keyten.R;
 import com.kutapps.keyten.home.adapters.binding.ColorModel;
 import com.kutapps.keyten.home.models.LoggedUserModel;
 import com.kutapps.keyten.main.viewmodels.MainViewModel;
 import com.kutapps.keyten.shared.constants.State;
-import com.kutapps.keyten.shared.database.DatabaseHelper;
-import com.kutapps.keyten.shared.database.models.KeytenModel;
+import com.kutapps.keyten.shared.database.Storage;
+import com.kutapps.keyten.shared.database.models.Ownership;
+
+import org.joda.time.DateTime;
+
+import java.util.Objects;
 
 public class HomeViewModel {
     public final static String TAG = HomeViewModel.class.getSimpleName();
 
     public final ObservableField<LoggedUserModel> user;
     public final ObservableField<State>           state;
-    public final ObservableField<KeytenModel>     keytenModel;
 
     public final ObservableField<ColorModel> backgroundColor;
 
-    private final DatabaseHelper databaseHelper;
-    //private final MessagesHelper messagesHelper;
+    private final Storage storage;
 
 
     {
         state = new ObservableField<>(State.Init);
         backgroundColor = new ObservableField<>(ColorModel.res(R.color.notenLight));
-        keytenModel = new ObservableField<>();
     }
 
-    public HomeViewModel(MainViewModel rootModel, DatabaseHelper databaseHelper) {
+    public HomeViewModel(MainViewModel rootModel) {
+        storage = rootModel.getStorage();
         user = rootModel.user;
-        this.databaseHelper = databaseHelper;
-        //messagesHelper = KeytenApp.getMessagesHelper();
 
-        //messagesHelper.registerForKeytens();
         initDatabase();
     }
 
     private void initDatabase() {
-        databaseHelper.listenKeytenChange(new DatabaseHelper.DbListener<KeytenModel>() {
+        storage.listenOwnershipChange(new Storage.OwnershipListener() {
             @Override
-            public void newValue(KeytenModel model) {
+            public void newValue(Ownership model) {
                 if (model != null) {
-                    keytenModel.set(model);
-                    state.set(model.value ? State.Mine : State.NotMine);
-
-                    ColorModel colorModel;
-//                    if (state.get() == State.Mine) {
-//                        colorModel = ColorModel.color(ColorGenerator.getColor(model.user.name));
-//                    } else {
-//                        colorModel = ColorModel.res(state.get().getColorLight());
-//                    }
-//                    backgroundColor.set(colorModel);
+                    if ((Objects.equals(model.getUser().id, user.get().id))) {
+                        state.set(State.Mine);
+                    } else {
+                        state.set(State.NotMine);
+                    }
                 } else {
-                    state.set(State.NotMine);
+                    state.set(State.Error);
                 }
             }
 
             @Override
-            public void error(DatabaseError error) {
-                state.set(State.Error);
-                Log.e(TAG, error.getMessage() + ": " + error.getDetails());
+            public void error(Object error) {
+                //
             }
         });
     }
@@ -75,7 +66,7 @@ public class HomeViewModel {
                 newState = State.Mine;
                 break;
             case Mine:
-                newState = State.NotMine;
+                newState = State.Mine;
                 break;
             case Init:
                 newState = State.Init;
@@ -83,13 +74,12 @@ public class HomeViewModel {
             case Error:
             default:
                 newState = State.Error;
+                break;
         }
 
-        state.set(newState);
-        KeytenModel model = new KeytenModel(newState == State.Mine, user.get());
-
-
-        //databaseHelper.setKeyten(model);
+        if (state.get() != State.Mine && newState == State.Mine) {
+            storage.addOwnership(new Ownership(DateTime.now(), user.get()));
+        }
     }
 
 }
