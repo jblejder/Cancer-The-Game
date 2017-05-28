@@ -1,24 +1,27 @@
 package com.kutapps.keyten.home.viewmodels;
 
 import android.databinding.ObservableField;
+import android.util.Log;
 
-import com.kutapps.keyten.R;
 import com.kutapps.keyten.home.adapters.binding.ColorModel;
 import com.kutapps.keyten.home.models.LoggedUserModel;
 import com.kutapps.keyten.main.viewmodels.MainViewModel;
 import com.kutapps.keyten.shared.constants.State;
 import com.kutapps.keyten.shared.database.Storage;
+import com.kutapps.keyten.shared.database.models.KeytenModel;
+import com.kutapps.keyten.shared.database.models.Leaderboard;
 import com.kutapps.keyten.shared.database.models.Ownership;
+import com.kutapps.keyten.shared.helpers.ColorGenerator;
 
 import org.joda.time.DateTime;
-
-import java.util.Objects;
 
 public class HomeViewModel {
     public final static String TAG = HomeViewModel.class.getSimpleName();
 
     public final ObservableField<LoggedUserModel> user;
-    public final ObservableField<State>           state;
+    public final ObservableField<State> state;
+    public final ObservableField<KeytenModel> keytenModel;
+    public final ObservableField<Ownership> ownershipModel;
 
     public final ObservableField<ColorModel> backgroundColor;
 
@@ -27,7 +30,9 @@ public class HomeViewModel {
 
     {
         state = new ObservableField<>(State.Init);
-        backgroundColor = new ObservableField<>(ColorModel.res(R.color.notenLight));
+        backgroundColor = new ObservableField<>(ColorModel.res(state.get().getColorLight()));
+        ownershipModel = new ObservableField<>();
+        keytenModel = new ObservableField<>();
     }
 
     public HomeViewModel(MainViewModel rootModel) {
@@ -38,48 +43,57 @@ public class HomeViewModel {
     }
 
     private void initDatabase() {
+        storage.listenLeaderboardChange(new Storage.LeaderboardListener() {
+            @Override
+            public void newValue(Leaderboard model) {
+                Log.d(TAG, "newValue: ");
+            }
+
+            @Override
+            public void error(Object error) {
+
+            }
+        });
+
+
         storage.listenOwnershipChange(new Storage.OwnershipListener() {
             @Override
             public void newValue(Ownership model) {
                 if (model != null) {
-                    if ((Objects.equals(model.getUser().id, user.get().id))) {
-                        state.set(State.Mine);
+                    ownershipModel.set(model);
+
+                    ColorModel colorModel;
+                    if (state.get() == State.Keyten) {
+                        colorModel = ColorModel.color(ColorGenerator.getColor(model.getUser().name));
                     } else {
-                        state.set(State.NotMine);
+                        colorModel = ColorModel.res(state.get().getColorLight());
                     }
+                    backgroundColor.set(colorModel);
                 } else {
-                    state.set(State.Error);
+                    state.set(State.Noten);
                 }
             }
 
             @Override
             public void error(Object error) {
-                //
+//                Log.e(TAG, error.getMessage() + ": " + error.getDetails());
             }
         });
     }
 
-    public void toggleState() {
+    public void setKeyten() {
         State newState;
         switch (state.get()) {
-            case NotMine:
-                newState = State.Mine;
+            case Noten:
+                newState = State.Keyten;
                 break;
-            case Mine:
-                newState = State.Mine;
-                break;
+            case Keyten:
             case Init:
-                newState = State.Init;
-                break;
-            case Error:
             default:
-                newState = State.Error;
-                break;
+                newState = State.Noten;
         }
 
-        if (state.get() != State.Mine && newState == State.Mine) {
-            storage.addOwnership(new Ownership(DateTime.now(), user.get()));
-        }
+        storage.addOwnership(new Ownership(DateTime.now(), user.get()));
     }
 
 }
