@@ -29,6 +29,7 @@ public class Storage {
     }
 
     public void listenLeaderboardChange(final LeaderboardListener listener) {
+        getInitleaderboardsValue(listener);
         db.getReference(OWNERSHIP).limitToLast(20).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -43,7 +44,23 @@ public class Storage {
         });
     }
 
+    private void getInitleaderboardsValue(LeaderboardListener listener) {
+        db.getReference().limitToLast(20).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Leaderboard leaderboard = convertToLeaderBoard(dataSnapshot);
+                listener.newValue(leaderboard);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.error(databaseError);
+            }
+        });
+    }
+
     public void listenOwnershipChange(final OwnershipListener listener) {
+        getInitOwnershipValue(listener);
         db.getReference(OWNERSHIP).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -67,6 +84,24 @@ public class Storage {
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.error(databaseError);
+            }
+        });
+    }
+
+    private void getInitOwnershipValue(final OwnershipListener listener) {
+        db.getReference(OWNERSHIP).limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    listener.newValue(parseModel(dataSnapshot));
+                } catch (ParseErrorException ex) {
+                    listener.error(ex);
+                }
             }
 
             @Override
