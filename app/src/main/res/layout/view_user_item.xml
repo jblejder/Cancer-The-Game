@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable name="model"
+                  type="String"/>
+
         <variable
             name="scale"
             type="Float"/>
@@ -34,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text='@{"User scale: "+scale}'
+            android:text='@{model}'
             android:textSize="@{22f * (scale + (1f-scale)/1.5f)}"
             tools:text="textSIze"/>
     </LinearLayout>
