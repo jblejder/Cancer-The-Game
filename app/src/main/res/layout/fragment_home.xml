@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="model"
-            type="com.kutapps.keyten.home.viewmodels.HomeViewModel"/>
+            type="com.kutapps.keyten.home.viewmodels.HomeViewModel" />
 
-        <import type="com.kutapps.keyten.shared.constants.State"/>
+        <import type="com.kutapps.keyten.shared.constants.State" />
     </data>
 
     <RelativeLayout
@@ -19,7 +17,6 @@
         android:layout_height="match_parent"
         android:background="@{model.backgroundColor}"
         app:animate="@{@integer/changeDuration}">
-
 
         <Button
             android:id="@+id/btnGoToLeaderboards"
@@ -32,47 +29,23 @@
             android:drawableEnd="@drawable/ic_arrow_right"
             android:text="@string/leaderboards"
             android:textSize="15sp"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/leaderboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_below="@+id/btnTHEBUTTON"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/activity_top_margin"
-            android:orientation="vertical">
-
-            <include
-                layout="@layout/view_user_item"
-                app:model="@{model.first}"
-                app:scale="@{1f}"/>
-
-            <include
-                layout="@layout/view_user_item"
-                app:model="@{model.second}"
-                app:scale="@{0.7f}"/>
-
-            <include
-                layout="@layout/view_user_item"
-                app:model="@{model.third}"
-                app:scale="@{0.6f}"/>
-
-            <include
-                layout="@layout/view_user_item"
-                app:scale="@{0.35f}"/>
-
-            <include
-                layout="@layout/view_user_item"
-                app:scale="@{0.3f}"/>
-        </LinearLayout>
+            android:orientation="vertical" />
 
         <RelativeLayout
             android:id="@+id/btnTHEBUTTON"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/leaderboard"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/activity_top_margin"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:onClick="@{v -> model.toggleState()}"
@@ -85,8 +58,7 @@
                 android:layout_margin="10dp"
                 android:src="@drawable/ic_crab_with_two_claws_icon"
                 android:visibility="invisible"
-                tools:visibility="visible"
-                />
+                tools:visibility="visible" />
         </RelativeLayout>
 
         <TextView
@@ -94,8 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/btnTHEBUTTON"
             android:layout_centerHorizontal="true"
-            android:text="MAINE!"
-            android:visibility="@{model.state == State.Mine}"/>
+            android:text="@string/you_are_the_owner"
+            android:visibility="@{model.state == State.Mine}" />
 
         <ImageButton
             android:id="@+id/btnUser"
@@ -108,7 +80,7 @@
             android:elevation="5dp"
             android:src="@{model.user.image}"
             app:circular="@{true}"
-            tools:src="@color/colorPrimaryDark"/>
+            tools:src="@color/colorPrimaryDark" />
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -117,6 +89,6 @@
             android:indeterminate="true"
             android:indeterminateTint="@color/colorPrimary"
             android:indeterminateTintMode="src_atop"
-            android:visibility="@{model.state == State.Init }"/>
+            android:visibility="@{model.state == State.Init }" />
     </RelativeLayout>
 </layout>

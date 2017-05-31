@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <variable name="model"
-                  type="String"/>
+        <variable
+            name="model"
+            type="String" />
 
         <variable
             name="scale"
-            type="Float"/>
+            type="Float" />
     </data>
 
     <LinearLayout
@@ -30,7 +31,7 @@
                 android:layout_marginEnd="10dp"
                 android:scaleX="@{scale}"
                 android:scaleY="@{scale}"
-                android:src="@drawable/ic_crab_with_two_claws_icon"/>
+                android:src="@drawable/ic_crab_with_two_claws_icon" />
         </RelativeLayout>
 
         <TextView
@@ -39,6 +40,6 @@
             android:layout_weight="1"
             android:text='@{model}'
             android:textSize="@{22f * (scale + (1f-scale)/1.5f)}"
-            tools:text="textSIze"/>
+            tools:text="textSIze" />
     </LinearLayout>
 </layout>

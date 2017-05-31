@@ -9,6 +9,7 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
 import static com.kutapps.keyten.shared.database.constants.DatabaseFields.OWNERSHIP;
+import static com.kutapps.keyten.shared.helpers.Json.toJson;
 
 public class StorageRx {
 
@@ -48,5 +49,9 @@ public class StorageRx {
 
     private Query createQueryWithLimit(int limit) {
         return db.getReference(OWNERSHIP).limitToLast(limit);
+    }
+
+    public void addOwnership(Ownership ownership) {
+        db.getReference(OWNERSHIP).push().setValue(toJson(ownership));
     }
 }

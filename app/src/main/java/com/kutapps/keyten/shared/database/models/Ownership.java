@@ -23,4 +23,8 @@ public class Ownership {
     public LoggedUserModel getUser() {
         return user;
     }
+
+    public String getUserId() {
+        return user.id;
+    }
 }

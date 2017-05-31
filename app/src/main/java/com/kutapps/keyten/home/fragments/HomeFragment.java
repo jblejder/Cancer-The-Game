@@ -6,6 +6,7 @@ import android.content.Context;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -15,6 +16,7 @@ import android.widget.Button;
 
 import com.kutapps.keyten.R;
 import com.kutapps.keyten.databinding.FragmentHomeBinding;
+import com.kutapps.keyten.home.adapters.RecentAdapter;
 import com.kutapps.keyten.home.dialogs.UserDialogFragment;
 import com.kutapps.keyten.home.dialogs.callbacks.IUserDialogCallback;
 import com.kutapps.keyten.home.viewmodels.HomeViewModel;
@@ -22,14 +24,14 @@ import com.kutapps.keyten.main.activities.callbacks.IMainActivityCallback;
 import com.kutapps.keyten.shared.fargments.BaseFragment;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements IUserDialogCallback {
-    private static final String DIALOG_TAG        = "dialogtag";
-    private static final long   ANIM_LONG         = 500;
-    private static final long   ANIM_MEDIUM       = 330;
-    private static final long   ANIM_SHORT        = 200;
-    private static final long   BUTTON_VISIBILITY = 5000;
+    private static final String DIALOG_TAG = "dialogtag";
+    private static final long ANIM_LONG = 500;
+    private static final long ANIM_MEDIUM = 330;
+    private static final long ANIM_SHORT = 200;
+    private static final long BUTTON_VISIBILITY = 5000;
 
     private IMainActivityCallback callback;
-    public  HomeViewModel         model;
+    public HomeViewModel model;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -75,6 +77,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
         binding.btnGoToLeaderboards.setOnClickListener(v -> {
             hideButton();
         });
+
+        RecentAdapter adapter = new RecentAdapter(model.recentOwners);
+        binding.leaderboard.setAdapter(adapter);
+        binding.leaderboard.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.leaderboard.setHasFixedSize(true);
     }
 
 
