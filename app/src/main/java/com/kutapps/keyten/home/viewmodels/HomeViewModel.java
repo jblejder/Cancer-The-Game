@@ -16,6 +16,11 @@ import org.joda.time.DateTime;
 
 import java.util.Objects;
 
+import static com.kutapps.keyten.shared.constants.State.Error;
+import static com.kutapps.keyten.shared.constants.State.Init;
+import static com.kutapps.keyten.shared.constants.State.Mine;
+import static com.kutapps.keyten.shared.constants.State.NotMine;
+
 public class HomeViewModel {
     public final static String TAG = HomeViewModel.class.getSimpleName();
 
@@ -24,11 +29,15 @@ public class HomeViewModel {
 
     public final ObservableField<ColorModel> backgroundColor;
 
+    public final ObservableField<String> first = new ObservableField<>();
+    public final ObservableField<String> second = new ObservableField<>();
+    public final ObservableField<String> third = new ObservableField<>();
+
     private final Storage storage;
 
 
     {
-        state = new ObservableField<>(State.Init);
+        state = new ObservableField<>(Init);
         backgroundColor = new ObservableField<>(ColorModel.res(R.color.notenLight));
     }
 
@@ -43,7 +52,15 @@ public class HomeViewModel {
         storage.listenLeaderboardChange(new Storage.LeaderboardListener() {
             @Override
             public void newValue(Leaderboard model) {
-                Log.d(TAG, "newValue: cos");
+                if(model.size() > 0) {
+                    first.set(model.get(0).getUser().name);
+                }
+                if(model.size() > 1) {
+                    first.set(model.get(1).getUser().name);
+                }
+                if(model.size() > 2) {
+                    first.set(model.get(2).getUser().name);
+                }
             }
 
             @Override
@@ -57,12 +74,12 @@ public class HomeViewModel {
             public void newValue(Ownership model) {
                 if (model != null) {
                     if ((Objects.equals(model.getUser().id, user.get().id))) {
-                        state.set(State.Mine);
+                        state.set(Mine);
                     } else {
-                        state.set(State.NotMine);
+                        state.set(NotMine);
                     }
                 } else {
-                    state.set(State.Error);
+                    state.set(NotMine);
                 }
             }
 
@@ -77,21 +94,21 @@ public class HomeViewModel {
         State newState;
         switch (state.get()) {
             case NotMine:
-                newState = State.Mine;
+                newState = Mine;
                 break;
             case Mine:
-                newState = State.Mine;
+                newState = Mine;
                 break;
             case Init:
-                newState = State.Init;
+                newState = Init;
                 break;
             case Error:
             default:
-                newState = State.Error;
+                newState = Error;
                 break;
         }
 
-        if (state.get() != State.Mine && newState == State.Mine) {
+        if (state.get() != Mine && newState == Mine) {
             storage.addOwnership(new Ownership(DateTime.now(), user.get()));
         }
     }

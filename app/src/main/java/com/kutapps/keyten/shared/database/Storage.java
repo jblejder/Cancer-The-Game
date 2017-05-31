@@ -94,25 +94,31 @@ public class Storage {
     }
 
     private void getInitOwnershipValue(final OwnershipListener listener) {
-        db.getReference(OWNERSHIP).limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    listener.newValue(parseModel(dataSnapshot));
-                } catch (ParseErrorException ex) {
-                    listener.error(ex);
-                }
-            }
+        db
+                .getReference(OWNERSHIP)
+                .limitToLast(1)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        try {
+                            listener.newValue(parseModel(dataSnapshot));
+                        } catch (ParseErrorException ex) {
+                            listener.error(ex);
+                        }
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                listener.error(databaseError);
-            }
-        });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        listener.error(databaseError);
+                    }
+                });
     }
 
     private Ownership parseModel(DataSnapshot dataSnapshot) throws ParseErrorException {
         Object rawValue = dataSnapshot.getValue();
+        if (rawValue == null) {
+            return null;
+        }
         if (rawValue instanceof String) {
             return Json.fromJson(((String) rawValue), Ownership.class);
         } else {
