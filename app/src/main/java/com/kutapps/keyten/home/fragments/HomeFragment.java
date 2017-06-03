@@ -5,7 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.databinding.Observable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +23,25 @@ import com.kutapps.keyten.databinding.FragmentHomeBinding;
 import com.kutapps.keyten.home.adapters.RecentAdapter;
 import com.kutapps.keyten.home.dialogs.UserDialogFragment;
 import com.kutapps.keyten.home.dialogs.callbacks.IUserDialogCallback;
-import com.kutapps.keyten.home.viewmodels.HomeViewModel;
+import com.kutapps.keyten.home.viewmodels.HomeFragmentViewModel;
 import com.kutapps.keyten.main.activities.callbacks.IMainActivityCallback;
 import com.kutapps.keyten.shared.fargments.BaseFragment;
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements IUserDialogCallback {
-    private static final String DIALOG_TAG = "dialogtag";
-    private static final long ANIM_LONG = 500;
-    private static final long ANIM_MEDIUM = 330;
-    private static final long ANIM_SHORT = 200;
-    private static final long BUTTON_VISIBILITY = 5000;
+import javax.inject.Inject;
 
-    private IMainActivityCallback callback;
-    public HomeViewModel model;
+import dagger.android.support.AndroidSupportInjection;
+
+public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements IUserDialogCallback {
+    private static final String DIALOG_TAG        = "dialogtag";
+    private static final long   ANIM_LONG         = 500;
+    private static final long   ANIM_MEDIUM       = 330;
+    private static final long   ANIM_SHORT        = 200;
+    private static final long   BUTTON_VISIBILITY = 5000;
+
+    private IMainActivityCallback                 callback;
+    @Inject
+    public  HomeFragmentViewModel                 model;
+    private BottomSheetBehavior<NestedScrollView> sheet;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -46,7 +56,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new HomeViewModel(callback.getModel());
+        AndroidSupportInjection.inject(this);
         model.state.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -81,9 +91,33 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
         RecentAdapter adapter = new RecentAdapter(model.recentOwners);
         binding.leaderboard.setAdapter(adapter);
         binding.leaderboard.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.leaderboard.setHasFixedSize(true);
-    }
+        sheet = BottomSheetBehavior.from(binding.bottomSheet);
+        sheet.setHideable(false);
+        sheet.setPeekHeight((int) getResources().getDimension(R.dimen.peek_height));
+        binding.bottomSheet.getBackground().setAlpha(0);
+        sheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            int baseOffset = (int) getResources().getDimension(R.dimen.peek_height);
+            int btnOffset = (int) (baseOffset / 1.3);
+            int logoOffset = baseOffset / 2;
+            float logoDelay = 0.2f;
 
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                float offset = Math.abs(slideOffset);
+                binding.bottomSheet.getBackground().setAlpha(
+                        Math.min(255, (int) (Math.abs(slideOffset * 3)
+                                * 255)));
+                binding.btnTHEBUTTON.setTranslationY(-btnOffset * offset);
+
+                binding.btnUser.setTranslationY(-logoOffset * Math.max(0, offset - logoDelay));
+            }
+        });
+    }
 
     public void onClickUser(View v) {
         new UserDialogFragment().show(getChildFragmentManager(), DIALOG_TAG);
@@ -94,6 +128,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
         callback.onClickLogout();
     }
 
+    @UiThread
     private void expandButton() {
         View b = binding.imgCancer;
         if (b.getVisibility() != View.VISIBLE) {
@@ -116,6 +151,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
         }
     }
 
+    @UiThread
     private void collapseButton() {
         View b = binding.imgCancer;
         if (b.getVisibility() == View.VISIBLE) {

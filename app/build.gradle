@@ -55,33 +55,36 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
 }
-ext {
-    supportLibVersion = '25.3.1'
-    firebaseVersion = '10.2.6'
-}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.code.findbugs'
     })
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:support-fragment:${supportLibVersion}"
-    compile "com.android.support:support-v4:${supportLibVersion}"
-    compile "com.android.support:design:${supportLibVersion}"
-    compile "com.google.firebase:firebase-database:${firebaseVersion}"
-    compile "com.google.firebase:firebase-messaging:${firebaseVersion}"
-    compile "com.google.firebase:firebase-core:${firebaseVersion}"
-    compile "com.google.firebase:firebase-auth:${firebaseVersion}"
-    compile "com.google.android.gms:play-services-auth:${firebaseVersion}"
+    compile "com.android.support:appcompat-v7:$supportLib"
+    compile "com.android.support:support-fragment:$supportLib"
+    compile "com.android.support:support-v4:$supportLib"
+    compile "com.android.support:design:$supportLib"
+    compile "com.google.firebase:firebase-database:$firebase"
+    compile "com.google.firebase:firebase-messaging:$firebase"
+    compile "com.google.firebase:firebase-core:$firebase"
+    compile "com.google.firebase:firebase-auth:$firebase"
+    compile "com.google.android.gms:play-services-auth:$firebase"
 
-    compile 'com.annimon:stream:1.1.7'
-    compile 'com.github.bumptech.glide:glide:3.8.0'
-    compile 'joda-time:joda-time:2.9.9'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+
+    compile "com.google.dagger:dagger:$dagger"
+    compile "com.google.dagger:dagger-android-support:$dagger"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
+
+    compile "com.annimon:stream:$annimon"
+    compile "com.github.bumptech.glide:glide:$glide"
+    compile "joda-time:joda-time:$joda"
+    compile "com.google.code.gson:gson:$gson"
+    compile "io.reactivex.rxjava2:rxjava:$rxJava"
+    compile "io.reactivex.rxjava2:rxandroid:$rxAndroid"
+    compile "com.android.support.constraint:constraint-layout:$constraintLayout"
+    testCompile "junit:junit:4.12"
 }
 apply plugin: 'com.google.gms.google-services'

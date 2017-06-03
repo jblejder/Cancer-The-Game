@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.kutapps.keyten.main.viewmodels.MainViewModel"/>
+            type="com.kutapps.keyten.main.viewmodels.MainActivityViewModel"/>
     </data>
 
     <LinearLayout

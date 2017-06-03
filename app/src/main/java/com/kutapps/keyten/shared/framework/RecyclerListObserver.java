@@ -4,7 +4,8 @@ import android.databinding.ObservableList;
 
 import com.kutapps.keyten.home.adapters.RecentAdapter;
 
-public class RecyclerListObserver<T> extends ObservableList.OnListChangedCallback<ObservableList<T>> {
+public class RecyclerListObserver<T> extends
+        ObservableList.OnListChangedCallback<ObservableList<T>> {
 
     private RecentAdapter adapter;
 
@@ -29,8 +30,12 @@ public class RecyclerListObserver<T> extends ObservableList.OnListChangedCallbac
 
     @Override
     public void onItemRangeMoved(ObservableList sender, int from, int to, int itemCount) {
-        adapter.notifyItemRangeRemoved(from, itemCount);
-        adapter.notifyItemRangeInserted(to, itemCount);
+        if (itemCount == 1) {
+            adapter.notifyItemMoved(from, to);
+        } else {
+            adapter.notifyItemRangeRemoved(from, itemCount);
+            adapter.notifyItemRangeInserted(to, itemCount);
+        }
     }
 
     @Override

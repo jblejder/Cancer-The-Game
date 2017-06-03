@@ -1,21 +1,29 @@
 package com.kutapps.keyten;
 
 
+import android.app.Activity;
 import android.app.Application;
 
-import com.kutapps.keyten.shared.database.Storage;
+import com.kutapps.keyten.di.DaggerAppComponent;
 
-public class KeytenApp extends Application {
+import javax.inject.Inject;
 
-    private Storage storage;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+
+public class KeytenApp extends Application implements HasActivityInjector {
+
+    @Inject
+    DispatchingAndroidInjector<Activity> activityInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        storage = new Storage();
+        DaggerAppComponent.builder().application(this).build().inject(this);
     }
 
-    public Storage getStorage() {
-        return storage;
+    @Override
+    public DispatchingAndroidInjector<Activity> activityInjector() {
+        return activityInjector;
     }
 }

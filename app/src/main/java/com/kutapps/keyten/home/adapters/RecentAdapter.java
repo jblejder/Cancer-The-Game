@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.kutapps.keyten.databinding.ViewUserItemBinding;
+import com.kutapps.keyten.home.models.LoggedUserModel;
 import com.kutapps.keyten.shared.database.models.Ownership;
 import com.kutapps.keyten.shared.framework.RecyclerListObserver;
 
@@ -28,7 +29,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.VH> {
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        holder.setModel(dataSet.get(position).getUser().name, position);
+        holder.setModel(dataSet.get(position).getUser(), position);
     }
 
     @Override
@@ -50,9 +51,15 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.VH> {
             this.binding = binding;
         }
 
-        void setModel(String text, int position) {
-            binding.setModel(text);
-            binding.setScale(1f - 1f / (0.5f * position + 1f));
+        void setModel(LoggedUserModel user, int position) {
+            binding.setModel(user);
+            float scale;
+            if (position > 2) {
+                scale = 0.4f;
+            } else {
+                scale = 1 - ((float) position / getItemCount() / 1.4f);
+            }
+            binding.setScale(scale);
         }
     }
 }

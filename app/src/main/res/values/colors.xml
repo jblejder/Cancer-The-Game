@@ -8,4 +8,6 @@
     <color name="initLight">#8BC34A</color>
     <color name="keytenDark">#3949AB</color>
     <color name="notenDark">#bdbdbd</color>
+    <color name="windowBackground">#ffffff</color>
+    <color name="sheetBackround">#eeFFee</color>
 </resources>
