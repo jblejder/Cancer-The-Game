@@ -1,6 +1,5 @@
 package com.kutapps.keyten.main.di;
 
-import com.kutapps.keyten.home.fragments.HomeFragment;
 import com.kutapps.keyten.main.activities.MainActivity;
 import com.kutapps.keyten.main.di.modules.MainBuildersModule;
 import com.kutapps.keyten.main.di.scopes.MainActivityScope;

@@ -10,9 +10,10 @@ import io.reactivex.Observer;
 public class OwnershipDatabaseListener implements ChildEventListener {
 
     private Mapper<DataSnapshot, Ownership> mapper;
-    private Observer<Ownership> observer;
+    private Observer<Ownership>             observer;
 
-    public OwnershipDatabaseListener(Mapper<DataSnapshot, Ownership> mapper, Observer<Ownership> observer) {
+    public OwnershipDatabaseListener(Mapper<DataSnapshot, Ownership> mapper,
+            Observer<Ownership> observer) {
         this.mapper = mapper;
         this.observer = observer;
     }

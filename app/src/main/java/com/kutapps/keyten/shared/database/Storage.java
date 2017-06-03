@@ -1,6 +1,9 @@
 package com.kutapps.keyten.shared.database;
 
 
+import static com.kutapps.keyten.shared.database.constants.DatabaseFields.OWNERSHIP;
+import static com.kutapps.keyten.shared.helpers.Json.toJson;
+
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.firebase.database.ChildEventListener;
@@ -13,9 +16,6 @@ import com.kutapps.keyten.shared.database.models.Ownership;
 import com.kutapps.keyten.shared.helpers.Json;
 
 import java.util.List;
-
-import static com.kutapps.keyten.shared.database.constants.DatabaseFields.OWNERSHIP;
-import static com.kutapps.keyten.shared.helpers.Json.toJson;
 
 public class Storage {
     private FirebaseDatabase db;

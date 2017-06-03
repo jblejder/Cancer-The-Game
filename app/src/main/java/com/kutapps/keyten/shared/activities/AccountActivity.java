@@ -17,8 +17,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.kutapps.keyten.R;
 
 public abstract class AccountActivity extends BaseActivity implements GoogleApiClient
-        .OnConnectionFailedListener
-{
+        .OnConnectionFailedListener {
     private static final String TAG = AccountActivity.class.getSimpleName();
 
     private   FirebaseAuth.AuthStateListener mAuthListener;
@@ -26,19 +25,15 @@ public abstract class AccountActivity extends BaseActivity implements GoogleApiC
     protected GoogleApiClient                mGoogleApiClient;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            if (user != null)
-            {
+            if (user != null) {
                 onUserLogged(user);
                 Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-            }
-            else
-            {
+            } else {
                 onUserLoggedOut();
                 Log.d(TAG, "onAuthStateChanged:signed_out");
             }
@@ -56,39 +51,33 @@ public abstract class AccountActivity extends BaseActivity implements GoogleApiC
 
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         mAuth.addAuthStateListener(mAuthListener);
         super.onStart();
     }
 
     @Override
-    public void onStop()
-    {
-        if (mAuthListener != null)
-        {
+    public void onStop() {
+        if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
         super.onStop();
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
-    {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.e(TAG, "onConnectionFailed" + connectionResult);
     }
 
 
-    protected void firebaseAuthWithGoogle(GoogleSignInAccount acct)
-    {
+    protected void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
             Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-            if (!task.isSuccessful())
-            {
+            if (!task.isSuccessful()) {
                 Log.w(TAG, "signInWithCredential", task.getException());
                 Toast.makeText(AccountActivity.this, "Authentication failed.", Toast
                         .LENGTH_SHORT).show();

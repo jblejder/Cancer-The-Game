@@ -26,8 +26,8 @@ import dagger.android.AndroidInjection;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class MainActivity extends AccountActivity implements IMainActivityCallback ,
-        HasSupportFragmentInjector{
+public class MainActivity extends AccountActivity implements IMainActivityCallback,
+        HasSupportFragmentInjector {
     private static final int    RC_SIGN_IN = 665;
     private static final String TAG        = MainActivity.class.getSimpleName();
     @Inject

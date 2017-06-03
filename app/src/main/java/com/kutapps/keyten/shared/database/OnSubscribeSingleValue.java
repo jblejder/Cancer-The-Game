@@ -11,7 +11,7 @@ import io.reactivex.annotations.NonNull;
 
 public class OnSubscribeSingleValue<T> implements ObservableOnSubscribe<T> {
 
-    private Query query;
+    private Query                   query;
     private Mapper<DataSnapshot, T> mapper;
 
     public OnSubscribeSingleValue(Query query, Mapper<DataSnapshot, T> mapper) {

@@ -3,12 +3,9 @@ package com.kutapps.keyten.shared.helpers;
 
 import android.graphics.Color;
 
-public class ColorGenerator
-{
-    public static int getColor(String text)
-    {
-        if (text == null)
-        {
+public class ColorGenerator {
+    public static int getColor(String text) {
+        if (text == null) {
             return Color.WHITE;
         }
         float[] hsv = new float[3];

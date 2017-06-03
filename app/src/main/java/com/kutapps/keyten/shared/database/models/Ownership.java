@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 
 public class Ownership {
     @JsonAdapter(DateTimeTypeAdapter.class)
-    private DateTime date;
+    private DateTime        date;
     private LoggedUserModel user;
 
     public Ownership(DateTime date, LoggedUserModel user) {

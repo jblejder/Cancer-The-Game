@@ -17,10 +17,11 @@ import com.kutapps.keyten.shared.database.models.Ownership;
  */
 public class KeytenWidgetProvider extends AppWidgetProvider {
     static void update(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds,
-                       Ownership model) {
+            Ownership model) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_root);
 
-//        int src = model.value ? R.drawable.widget_background_keyten : R.drawable.widget_background_noten;
+//        int src = model.value ? R.drawable.widget_background_keyten : R.drawable
+// .widget_background_noten;
 //        views.setImageViewResource(R.id.widget_image, src);
         appWidgetManager.updateAppWidget(appWidgetIds, views);
 

@@ -9,10 +9,11 @@ import io.reactivex.Observer;
 
 public class LeaderboardDatabaseListener implements ValueEventListener {
 
-    private LeaderboardMapper leaderboardMapper;
+    private LeaderboardMapper     leaderboardMapper;
     private Observer<Leaderboard> observer;
 
-    public LeaderboardDatabaseListener(LeaderboardMapper leaderboardMapper, Observer<Leaderboard> observer) {
+    public LeaderboardDatabaseListener(LeaderboardMapper leaderboardMapper,
+            Observer<Leaderboard> observer) {
         this.leaderboardMapper = leaderboardMapper;
         this.observer = observer;
     }
