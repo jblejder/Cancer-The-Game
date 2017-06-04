@@ -55,19 +55,22 @@ public class HomeFragmentViewModel {
                 (leaderboard -> {
                     recentOwners.clear();
                     recentOwners.addAll(leaderboard);
+                }, error -> {
                 });
-        storage.ownershipObservable().observeOn(AndroidSchedulers.mainThread()).subscribe(
-                ownership -> {
-                    if (ownership != null) {
-                        if ((Objects.equals(ownership.getUser().id, user.get().id))) {
-                            state.set(Mine);
-                        } else {
-                            state.set(NotMine);
-                        }
-                    } else {
-                        state.set(NotMine);
-                    }
-                });
+        storage.ownershipObservable().observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        ownership -> {
+                            if (ownership != null) {
+                                if ((Objects.equals(ownership.getUser().id, user.get().id))) {
+                                    state.set(Mine);
+                                } else {
+                                    state.set(NotMine);
+                                }
+                            } else {
+                                state.set(NotMine);
+                            }
+                        }, error -> {
+                        });
     }
 
     public void toggleState() {

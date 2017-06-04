@@ -2,6 +2,8 @@ package com.kutapps.keyten.home.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.databinding.Observable;
 import android.os.Bundle;
@@ -12,11 +14,9 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 
 import com.kutapps.keyten.R;
 import com.kutapps.keyten.databinding.FragmentHomeBinding;
@@ -32,11 +32,11 @@ import javax.inject.Inject;
 import dagger.android.support.AndroidSupportInjection;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements IUserDialogCallback {
-    private static final String DIALOG_TAG        = "dialogtag";
-    private static final long   ANIM_LONG         = 500;
-    private static final long   ANIM_MEDIUM       = 330;
-    private static final long   ANIM_SHORT        = 200;
-    private static final long   BUTTON_VISIBILITY = 5000;
+    private static final String DIALOG_TAG                  = "dialogtag";
+    private static final int    ANIM_LONG                   = 500;
+    private static final int    ANIM_MEDIUM                 = 330;
+    private static final int    ANIM_SHORT                  = 100;
+    private static final int    LEADERBOARD_ANIMATION_DELAY = 5000;
 
     private IMainActivityCallback                 callback;
     @Inject
@@ -62,8 +62,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
             public void onPropertyChanged(Observable observable, int i) {
                 switch (model.state.get()) {
                     case NotMine:
-                    case Mine:
                         expandButton();
+                    case Mine:
+                        if(binding.btnTHEBUTTON.getVisibility() != View.VISIBLE)
+                            expandButton();
                         break;
                     case Init:
                     case Error:
@@ -83,10 +85,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
     protected void initView(Bundle savedInstanceState) {
         binding.setModel(model);
         binding.btnUser.setOnClickListener(this::onClickUser);
-        //binding.getRoot().setOnClickListener(v -> rootClicked());
-        binding.btnGoToLeaderboards.setOnClickListener(v -> {
-            hideButton();
-        });
+        binding.btnTHEBUTTON.setOnClickListener(this::onClickTheButton);
 
         RecentAdapter adapter = new RecentAdapter(model.recentOwners);
         binding.leaderboard.setAdapter(adapter);
@@ -115,9 +114,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
                 binding.btnTHEBUTTON.setTranslationY(-btnOffset * offset);
 
                 binding.btnUser.setTranslationY(-logoOffset * Math.max(0, offset - logoDelay));
+                binding.txtCancerInfo.setTranslationY(-btnOffset / 2 * offset);
             }
         });
+        startLeaderboardAnimation();
     }
+
 
     public void onClickUser(View v) {
         new UserDialogFragment().show(getChildFragmentManager(), DIALOG_TAG);
@@ -169,42 +171,68 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> implements I
         }
     }
 
-    private void rootClicked() {
-        if (binding.btnGoToLeaderboards.getVisibility() != View.VISIBLE) {
-            showButton();
+    private boolean buttonAnimating = false;
+
+    private void onClickTheButton(View button) {
+        model.toggleState();
+        if (!buttonAnimating) {
+            buttonAnimating = true;
+            button.animate().scaleX(0.9f).scaleY(0.9f).setInterpolator(
+                    new AccelerateDecelerateInterpolator()).setDuration(ANIM_SHORT).setListener(
+                    new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            animation.removeAllListeners();
+                            button.animate().scaleX(1).scaleY(1).setDuration(ANIM_SHORT)
+                                    .setListener(new AnimatorListenerAdapter() {
+                                        @Override
+                                        public void onAnimationEnd(Animator animation) {
+                                            animation.removeAllListeners();
+                                            buttonAnimating = false;
+                                        }
+                                    });
+                        }
+                    });
         }
     }
 
-    private void hideButton() {
-        Button b = binding.btnGoToLeaderboards;
-        int translation = b.getHeight() + ((ViewGroup.MarginLayoutParams)
-                b.getLayoutParams()).bottomMargin;
-        b.animate().scaleX(0.8f).translationY(translation)
-                .setInterpolator(
-                        new DecelerateInterpolator()).setDuration(ANIM_LONG)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        b.setVisibility(View.INVISIBLE);
-                        animation.removeAllListeners();
-                    }
-                });
-    }
-
-    private void showButton() {
-        Button b = binding.btnGoToLeaderboards;
-        int translation = b.getHeight() + ((ViewGroup.MarginLayoutParams)
-                b.getLayoutParams()).bottomMargin;
-        b.setTranslationY(translation);
-        b.setVisibility(View.VISIBLE);
-        b.setScaleX(0.8f);
-        b.animate().scaleX(1).translationY(0).setDuration(ANIM_LONG).setInterpolator(
-                new OvershootInterpolator())
-                .setListener(null);
-        binding.btnGoToLeaderboards.postDelayed(() -> {
-            if (isAdded()) {
-                hideButton();
-            }
-        }, BUTTON_VISIBILITY);
+    private void startLeaderboardAnimation() {
+        if (sheet.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            ValueAnimator valueAnimator = ObjectAnimator.ofFloat(0, 1, 0).setDuration(ANIM_LONG +
+                    ANIM_MEDIUM);
+            valueAnimator.addUpdateListener(
+                    animation -> {
+                        float animatedValue = ((float) animation.getAnimatedValue());
+                        binding.bottomSheet.getBackground().setAlpha((int) (animatedValue * 255));
+                    });
+            valueAnimator.start();
+            binding.leaderboard.animate().translationY(-getResources().getDimension(R.dimen
+                    .activity_bottom_margin)).setDuration(ANIM_MEDIUM).setInterpolator(new
+                    AccelerateDecelerateInterpolator()).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    binding.leaderboard.animate().translationY(0).setDuration(ANIM_LONG)
+                            .setInterpolator(new BounceInterpolator()).setListener(
+                            new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    animation.removeAllListeners();
+                                    binding.leaderboard.postDelayed(() -> {
+                                        if (isAdded()) {
+                                            startLeaderboardAnimation();
+                                        }
+                                    }, LEADERBOARD_ANIMATION_DELAY);
+                                }
+                            });
+                }
+            });
+        } else {
+            binding.leaderboard.postDelayed(() -> {
+                if (isAdded()) {
+                    startLeaderboardAnimation();
+                }
+            }, LEADERBOARD_ANIMATION_DELAY);
+        }
     }
 }

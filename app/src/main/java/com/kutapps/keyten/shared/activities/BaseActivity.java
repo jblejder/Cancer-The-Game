@@ -28,7 +28,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                 if (addToBackStack) {
                     ft.addToBackStack(fragment.getClass().getName());
                 }
-                ft.commit();
+                if (!isFinishing()) {
+                    ft.commit();
+                }
             }
         }
     }

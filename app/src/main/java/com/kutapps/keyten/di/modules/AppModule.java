@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.kutapps.keyten.KeytenApp;
 import com.kutapps.keyten.shared.database.IStorageRx;
-import com.kutapps.keyten.shared.database.MockedRxStorage;
+import com.kutapps.keyten.shared.database.StorageRx;
 
 import javax.inject.Singleton;
 
@@ -21,7 +21,7 @@ public class AppModule {
     @Provides
     @Singleton
     public IStorageRx storage() {
-        //return new StorageRx();
-        return new MockedRxStorage();
+        return new StorageRx();
+        //return new MockedRxStorage();
     }
 }
