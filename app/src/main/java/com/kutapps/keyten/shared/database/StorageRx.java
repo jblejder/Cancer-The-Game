@@ -1,11 +1,17 @@
 package com.kutapps.keyten.shared.database;
 
+import android.util.Log;
+
 import static com.kutapps.keyten.shared.database.constants.DatabaseFields.OWNERSHIP;
 import static com.kutapps.keyten.shared.helpers.Json.toJson;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.kutapps.keyten.shared.database.models.Leaderboard;
+import com.kutapps.keyten.shared.database.models.NoOne;
 import com.kutapps.keyten.shared.database.models.Ownership;
 
 import io.reactivex.Observable;
@@ -31,7 +37,7 @@ public class StorageRx implements IStorageRx {
         if (ownershipSubject != null && !ownershipSubject.hasThrowable()) {
             return ownershipSubject;
         }
-        ownershipSubject = BehaviorSubject.create();
+        ownershipSubject = BehaviorSubject.createDefault(new NoOne());
         ownershipDatabaseListener = new OwnershipDatabaseListener(new OwnershipMapper(),
                 ownershipSubject);
         createQueryWithLimit(1).addChildEventListener(ownershipDatabaseListener);

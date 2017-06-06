@@ -1,10 +1,5 @@
 package com.kutapps.keyten.home.viewmodels;
 
-import static com.kutapps.keyten.shared.constants.State.Error;
-import static com.kutapps.keyten.shared.constants.State.Init;
-import static com.kutapps.keyten.shared.constants.State.Mine;
-import static com.kutapps.keyten.shared.constants.State.NotMine;
-
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
@@ -15,6 +10,7 @@ import com.kutapps.keyten.home.models.LoggedUserModel;
 import com.kutapps.keyten.main.viewmodels.MainActivityViewModel;
 import com.kutapps.keyten.shared.constants.State;
 import com.kutapps.keyten.shared.database.IStorageRx;
+import com.kutapps.keyten.shared.database.models.NoOne;
 import com.kutapps.keyten.shared.database.models.Ownership;
 
 import org.joda.time.DateTime;
@@ -25,15 +21,20 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
+import static com.kutapps.keyten.shared.constants.State.Error;
+import static com.kutapps.keyten.shared.constants.State.Init;
+import static com.kutapps.keyten.shared.constants.State.Mine;
+import static com.kutapps.keyten.shared.constants.State.NotMine;
+
 public class HomeFragmentViewModel {
     public final static String TAG = HomeFragmentViewModel.class.getSimpleName();
 
     public final ObservableField<LoggedUserModel> user;
-    public final ObservableField<State>           state;
-    public final ObservableList<Ownership>        recentOwners;
+    public final ObservableField<State> state;
+    public final ObservableList<Ownership> recentOwners;
 
-    public final  ObservableField<ColorModel> backgroundColor;
-    private final IStorageRx                  storage;
+    public final ObservableField<ColorModel> backgroundColor;
+    private final IStorageRx storage;
 
 
     {
@@ -60,12 +61,12 @@ public class HomeFragmentViewModel {
         storage.ownershipObservable().observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         ownership -> {
-                            if (ownership != null) {
-                                if ((Objects.equals(ownership.getUser().id, user.get().id))) {
-                                    state.set(Mine);
-                                } else {
-                                    state.set(NotMine);
-                                }
+                            if (ownership instanceof NoOne) {
+                                state.set(NotMine);
+                                return;
+                            }
+                            if ((Objects.equals(ownership.getUser().id, user.get().id))) {
+                                state.set(Mine);
                             } else {
                                 state.set(NotMine);
                             }
