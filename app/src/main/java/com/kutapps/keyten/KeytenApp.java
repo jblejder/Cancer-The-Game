@@ -1,36 +1,29 @@
 package com.kutapps.keyten;
 
 
+import android.app.Activity;
 import android.app.Application;
 
-import com.kutapps.keyten.shared.MessagesHelper;
-import com.kutapps.keyten.shared.database.DatabaseHelper;
+import com.kutapps.keyten.di.DaggerAppComponent;
 
-public class KeytenApp extends Application
-{
-    private static KeytenApp instance;
+import javax.inject.Inject;
 
-    private DatabaseHelper databaseHelper;
-    private MessagesHelper messagesHelper;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+
+public class KeytenApp extends Application implements HasActivityInjector {
+
+    @Inject
+    DispatchingAndroidInjector<Activity> activityInjector;
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
-
-        instance = this;
-
-        messagesHelper = new MessagesHelper();
-        databaseHelper = new DatabaseHelper();
+        DaggerAppComponent.builder().application(this).build().inject(this);
     }
 
-    public static DatabaseHelper getDatabaseHelper()
-    {
-        return instance.databaseHelper;
-    }
-
-    public static MessagesHelper getMessagesHelper()
-    {
-        return instance.messagesHelper;
+    @Override
+    public DispatchingAndroidInjector<Activity> activityInjector() {
+        return activityInjector;
     }
 }

@@ -1,12 +1,11 @@
 package com.kutapps.keyten.main.activities.callbacks;
 
-import com.kutapps.keyten.main.viewmodels.MainViewModel;
+import com.kutapps.keyten.main.viewmodels.MainActivityViewModel;
 
-public interface IMainActivityCallback
-{
+public interface IMainActivityCallback {
     void onClickLogout();
 
-    MainViewModel getModel();
+    MainActivityViewModel getModel();
 
     void onLoginWithGoogle();
 }

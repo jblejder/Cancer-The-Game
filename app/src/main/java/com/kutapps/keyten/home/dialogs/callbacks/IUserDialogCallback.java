@@ -1,6 +1,5 @@
 package com.kutapps.keyten.home.dialogs.callbacks;
 
-public interface IUserDialogCallback
-{
+public interface IUserDialogCallback {
     void onClickLogout();
 }

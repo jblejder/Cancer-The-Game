@@ -1,83 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="model"
-            type="com.kutapps.keyten.home.viewmodels.HomeViewModel"/>
-
-        <variable
-            name="handler"
-            type="com.kutapps.keyten.home.fragments.handlers.IMainFragmentHandler"/>
+            type="com.kutapps.keyten.home.viewmodels.HomeFragmentViewModel"/>
 
         <import type="com.kutapps.keyten.shared.constants.State"/>
     </data>
 
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@{model.state.colorLight}"
-        android:paddingBottom="@dimen/activity_bottom_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_top_margin"
-        app:animate="@{@integer/changeDuration}"
-        tools:background="@color/notenLight">
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:background="@null"
-            android:onClick="@{v -> handler.onClickUser()}"
-            android:src="@{model.user.image}"
-            app:circular="@{true}"/>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:background="@{model.backgroundColor}"
+            app:animate="@{@integer/changeDuration}">
+
+            <Button
+                android:id="@+id/btnGoToLeaderboards"
+                style="?borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/activity_bottom_margin"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:text="@string/leaderboards"
+                android:textSize="15sp"
+                android:visibility="invisible"/>
+
+
+            <RelativeLayout
+                android:id="@+id/btnTHEBUTTON"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/activity_top_margin"
+                android:visibility="@{model.state != State.Init}">
+
+                <ImageView
+                    android:id="@+id/imgCancer"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_cancer"
+                    android:visibility="invisible"
+                    tools:visibility="visible"/>
+            </RelativeLayout>
 
             <TextView
+                android:id="@+id/txtCancerInfo"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:text="@{model.state != State.Keyten ? @string/keyten : @string/no_ten}"
-                android:textAlignment="center"
-                android:textSize="50sp"
-                android:visibility="@{model.state != State.Init}"/>
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btnTHEBUTTON"
+                android:layout_centerHorizontal="true"
+                android:text="@string/you_are_the_owner"
+                android:visibility="@{model.state == State.Mine}"/>
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/btnUser"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_top_margin"
+                android:background="@null"
+                android:elevation="5dp"
+                android:src="@{model.user.image}"
+                app:circular="@{true}"
+                tools:src="@color/colorPrimaryDark"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@{model.state.colorDark}"
-            android:onClick="@{v -> model.setKeyten()}"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:text="@string/keyten"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="50sp"
-            android:visibility="@{model.state != State.Init }"
-            app:animate="@{@integer/changeDuration}"/>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/colorPrimary"
+                android:indeterminateTintMode="src_atop"
+                android:visibility="@{model.state == State.Init }"/>
+        </RelativeLayout>
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminate="true"
-            android:visibility="@{model.state == State.Init }"/>
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/sheetBackround"
+            android:clipToPadding="true"
+            app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+            tools:visibility="gone"
+            >
 
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/leaderboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_top_margin"
+                android:layout_marginTop="@dimen/activity_top_margin"
+                android:nestedScrollingEnabled="false"
+                android:orientation="vertical"/>
+
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

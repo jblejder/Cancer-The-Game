@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.kutapps.keyten"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.kutapps.keyten">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".KeytenApp"
@@ -33,6 +36,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/keyten_widget_info"/>
         </receiver>
+
+        <activity
+            android:name=".playground.PlaygroundActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

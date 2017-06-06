@@ -1,15 +1,35 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext {
+        supportLib = '25.3.1'
+        firebase = '10.2.6'
+        annimon = '1.1.7'
+        glide = '3.8.0'
+        joda = '2.9.9'
+        gson = '2.8.1'
+        rxJava = '2.1.0'
+        rxAndroid = '2.0.1'
+        constraintLayout = '1.0.2'
+        dagger = '2.11'
+
+    }
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'me.tatarka:gradle-retrolambda:3.4.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+    }
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xmaxerrs" << "50000" // or whatever number you want
     }
 }
 
